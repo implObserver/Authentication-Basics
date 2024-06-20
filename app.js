@@ -8,10 +8,14 @@ import logger from 'morgan';
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
 import { connectLibraryDB } from './database/dispatcherdb.js';
-//import { connectLibraryDB } from './database/dispatcherdb.js';
+import passport from "passport";
+import session from "express-session";
+import { userRouter } from './routes/user.js';
+
 //import compression from 'compression';
 //import helmet from 'helmet'
 //import RateLimit from 'express-rate-limit'
+
 connectLibraryDB();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,14 +27,19 @@ const app = express();
 app.set('views', join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev'));
-app.use(express.json());
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(logger('dev'));
+app.use(json());
+app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(staticFile(join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use(userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

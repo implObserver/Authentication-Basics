@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import mongoose from 'mongoose';
 // In Separate file
-const mongoDB = process.env.MONGODB_URI;
+const mongoDB = process.env.MONGODB_SHOPPING_URI;
 //BUILD A CONNECTION
 export const connectLibraryDB = () => {
     mongoose.connect(mongoDB).then(() => { console.log('Connected To database :)') })

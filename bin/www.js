@@ -8,7 +8,7 @@ import app from '../app.js';
 import { createServer } from 'http';
 import createDebugMessages from 'debug';
 
-const debug = createDebugMessages('shoppingCart-backend:server');
+const debug = createDebugMessages('authentification-basics:server');
 
 /**
  * Get port from environment and store in Express.
