@@ -2,6 +2,7 @@ import { User } from "../models/user.js";
 import { body, validationResult } from "express-validator";
 import asyncHandler from "express-async-handler";
 import passport from "passport";
+import bcrypt from 'bcryptjs';
 
 const user_create_get = (req, res, next) => {
     res.render("sign-up-form");
@@ -24,11 +25,11 @@ const user_create_post = [
     asyncHandler(async (req, res, next) => {
         // Extract the validation errors from a request.
         const errors = validationResult(req);
-
+        const hashPassword = await bcrypt.hash(req.body.password, 10);
         // Create Author object with escaped and trimmed data
         const user = new User({
             username: req.body.username,
-            password: req.body.password
+            password: hashPassword,
         });
 
         if (!errors.isEmpty()) {

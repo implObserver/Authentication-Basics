@@ -13,7 +13,7 @@ import session from "express-session";
 import { userRouter } from './routes/user.js';
 import { User } from './models/user.js';
 import { Strategy as LocalStrategy } from 'passport-local';
-
+import bcrypt from 'bcryptjs';
 //import compression from 'compression';
 //import helmet from 'helmet'
 //import RateLimit from 'express-rate-limit'
@@ -59,16 +59,22 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
       console.log('try')
       const user = await User.findOne({ username: username });
+      const match = await bcrypt.compare(password, user.password);
       if (!user) {
         console.log('uncorrect username')
         return done(null, false, { message: "Incorrect username" });
       };
-      if (user.password !== password) {
+      if (!match) {
         console.log('Incorrect password')
         return done(null, false, { message: "Incorrect password" });
       };
