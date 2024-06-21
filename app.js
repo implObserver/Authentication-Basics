@@ -11,6 +11,8 @@ import { connectLibraryDB } from './database/dispatcherdb.js';
 import passport from "passport";
 import session from "express-session";
 import { userRouter } from './routes/user.js';
+import { User } from './models/user.js';
+import { Strategy as LocalStrategy } from 'passport-local';
 
 //import compression from 'compression';
 //import helmet from 'helmet'
@@ -55,6 +57,43 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      console.log('try')
+      const user = await User.findOne({ username: username });
+      if (!user) {
+        console.log('uncorrect username')
+        return done(null, false, { message: "Incorrect username" });
+      };
+      if (user.password !== password) {
+        console.log('Incorrect password')
+        return done(null, false, { message: "Incorrect password" });
+      };
+      console.log('Welcome')
+      return done(null, user);
+    } catch (err) {
+      console.log('catch')
+      return done(err);
+    };
+  })
+);
+
+passport.serializeUser((user, done) => {
+  console.log('wow2')
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  console.log('wow3')
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  };
 });
 
 export default app;

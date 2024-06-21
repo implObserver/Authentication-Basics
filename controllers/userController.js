@@ -1,6 +1,7 @@
 import { User } from "../models/user.js";
 import { body, validationResult } from "express-validator";
 import asyncHandler from "express-async-handler";
+import passport from "passport";
 
 const user_create_get = (req, res, next) => {
     res.render("sign-up-form");
@@ -49,11 +50,23 @@ const user_create_post = [
 ];
 
 const user_auth_get = (req, res, next) => {
-
+    res.render("index", { user: req.user });
 };
 
-const user_auth_post = (req, res, next) => {
+const user_auth_post = asyncHandler(async (req, res, next) => {
+    passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/"
+    })(req, res, next)
+});
 
+const user_logout_get = (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("/");
+    });
 };
 
 export const userController = {
@@ -61,4 +74,5 @@ export const userController = {
     user_auth_post,
     user_create_get,
     user_create_post,
+    user_logout_get,
 }
