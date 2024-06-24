@@ -6,22 +6,9 @@ block content
     a(href="/log-out") LOG OUT
   else
     h1 Please Log In
-
-    form(action="/log-in",method="POST")
-      div.form-group
-        label(for="username") Username:
-        input#username.form-control(
-          name="username",
-          type="text",
-          placeholder="username"
-        )
-        label(for="password") Password:
-        input#username.form-control(
-          name="password",
-          type="password",
-        )
-      button.btn.btn-primary(type='submit') Log In
-
+    a(href="/log-in") LOG IN
+    h1 Or Sign Up 
+    a(href="/sign-up") SIGN UP
   if errors
     ul
       for error in errors

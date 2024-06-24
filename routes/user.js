@@ -5,3 +5,8 @@ export const userRouter = Router();
 
 userRouter.get("/sign-up", userController.user_create_get);
 userRouter.post("/sign-up", userController.user_create_post);
+
+userRouter.get("/log-in", userController.user_auth_get);
+userRouter.post("/log-in", userController.user_auth_post);
+
+userRouter.get("/log-out", userController.user_logout_get);

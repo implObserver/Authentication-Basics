@@ -1,10 +1,7 @@
 import { Router } from 'express';
-import { userController } from '../controllers/userController.js';
-const router = Router();
+import { indexController } from '../controllers/indexController.js';
+
+export const indexRouter = Router();
 
 /* GET home page. */
-router.get('/', userController.user_auth_get);
-router.post('/log-in', userController.user_auth_post);
-router.get('/log-out', userController.user_logout_get);
-
-export default router;
+indexRouter.get('/', indexController.index_default_get);

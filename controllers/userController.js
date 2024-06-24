@@ -51,7 +51,7 @@ const user_create_post = [
 ];
 
 const user_auth_get = (req, res, next) => {
-    res.render("index", { user: req.user });
+    res.render("log-in-form", { user: req.user });
 };
 
 const user_auth_post = asyncHandler(async (req, res, next) => {
