@@ -57,7 +57,7 @@ const user_auth_get = (req, res, next) => {
 const user_auth_post = asyncHandler(async (req, res, next) => {
     passport.authenticate("local", {
         successRedirect: "/",
-        failureRedirect: "/"
+        failureRedirect: "/",
     })(req, res, next)
 });
 
