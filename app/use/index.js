@@ -1,17 +1,7 @@
-import { useAuthMiddleware } from "./auth/index.js";
-import { useErrorsMiddleware } from "./errors/index.js";
-import { useFilesMiddleware } from "./files/index.js";
-import { useLoggingMiddleware } from "./logging/index.js";
-import { useRequestParsersMiddleware } from "./requestParsers/index.js";
-import { useRoutes } from "./routes/useRoutes.js";
-import { useSession } from "./session/useSession.js"
+import { useDevMiddlewares } from "./dev/index.js";
+import { useProdactionMiddlewares } from "./prodaction/index.js"
 
 export const useGlobalMiddlewares = () => {
-    useSession();
-    useAuthMiddleware();
-    useLoggingMiddleware();
-    useRequestParsersMiddleware();
-    useFilesMiddleware();
-    useRoutes();
-    useErrorsMiddleware();
+    //useProdactionMiddlewares();
+    useDevMiddlewares();
 }
